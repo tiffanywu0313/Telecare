@@ -1,4 +1,4 @@
-package hackhealth2018.myapplication;
+package hackhealth2018.myapplication.views;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -43,7 +43,17 @@ public class BaseFragment extends Fragment {
         mFragmentInteractor.uiChangeOnUiThread(runnable);
     }
 
+    protected void showProgressDialog(String title, String message) {
+        mFragmentInteractor.showProgressDialog(title, message);
+    }
+
+    protected void hideProgressDialog() {
+        mFragmentInteractor.hideProgressDialog();
+    }
+
     public interface BasicFragmentInteractor {
+        void showProgressDialog(String title, String message);
+        void hideProgressDialog();
         void showToast(int res, int duration);
         void showToast(String message, int duration);
         void uiChangeOnUiThread(Runnable uiRunnable);
