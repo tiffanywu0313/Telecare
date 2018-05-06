@@ -10,6 +10,7 @@ import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.widget.FrameLayout;
 
+import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.gson.Gson;
 import com.opentok.android.OpentokError;
@@ -145,6 +146,10 @@ public class SessionActivity extends BaseActivity implements Session.SessionList
         Log.i(TAG, "API_KEY: " + API_KEY);
         Log.i(TAG, "SESSION_ID: " + SESSION_ID);
         Log.i(TAG, "TOKEN: " + TOKEN);
+
+        DatabaseReference myRef = db.getReference().child("Rooms").child("room2");
+        myRef.child("sessionID").setValue(SESSION_ID);
+        myRef.child("token").setValue(TOKEN);
 
         mSession = new Session.Builder(this, API_KEY, SESSION_ID).build();
         mSession.setSessionListener(this);
