@@ -153,7 +153,7 @@ public class DataFragment extends BaseFragment {
                 }
             });
         } else {
-            mLiveData. setText("Please hold the camera so that your entire face is clearly visible");
+            mLiveData. setText("");
             mLiveData.setTextSize(15);
             mLiveDesc.setText("Connected to Dr. Vegas");
             mLiveDesc.setTextSize(20);
