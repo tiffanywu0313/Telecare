@@ -1,4 +1,4 @@
-package hackhealth2018.myapplication.views.chatSession;
+package hackhealth2018.hackhealth2018.views.chatSession;
 
 import android.Manifest;
 import android.content.pm.PackageManager;
@@ -8,6 +8,7 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.util.Log;
+import android.view.WindowManager;
 import android.widget.FrameLayout;
 
 import com.google.firebase.database.DatabaseReference;
@@ -24,10 +25,10 @@ import java.io.IOException;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import hackhealth2018.myapplication.R;
-import hackhealth2018.myapplication.model.SessionResponse;
-import hackhealth2018.myapplication.util.Strings;
-import hackhealth2018.myapplication.views.BaseActivity;
+import hackhealth2018.hackhealth2018.R;
+import hackhealth2018.hackhealth2018.model.SessionResponse;
+import hackhealth2018.hackhealth2018.util.Strings;
+import hackhealth2018.hackhealth2018.views.BaseActivity;
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.OkHttpClient;
@@ -67,6 +68,9 @@ public class SessionActivity extends BaseActivity implements Session.SessionList
         dataFrag = DataFragment.newInstance(isDoctor);
 //        replaceFragment(R.id.frame_tokbox, chatFrag);
 //        replaceFragment(R.id.frame_data, dataFrag);
+
+        // keep the screen on
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
     }
 
     @Override
@@ -100,8 +104,7 @@ public class SessionActivity extends BaseActivity implements Session.SessionList
     }
 
     private void startConnection() {
-        if (!isDoctor)
-            onChatStart();
+        onChatStart();
 //        ((ChatFragment) chatFrag).onChatStart();
 //        ((DataFragment) dataFrag).onChatStart() //TODO
     }

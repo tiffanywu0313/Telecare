@@ -1,4 +1,4 @@
-package hackhealth2018.myapplication.views.sessionSelection;
+package hackhealth2018.hackhealth2018.views.sessionSelection;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -6,10 +6,10 @@ import android.support.annotation.Nullable;
 
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import hackhealth2018.myapplication.util.Strings;
-import hackhealth2018.myapplication.views.BaseActivity;
-import hackhealth2018.myapplication.R;
-import hackhealth2018.myapplication.views.chatSession.SessionActivity;
+import hackhealth2018.hackhealth2018.util.Strings;
+import hackhealth2018.hackhealth2018.views.BaseActivity;
+import hackhealth2018.hackhealth2018.R;
+import hackhealth2018.hackhealth2018.views.chatSession.SessionActivity;
 
 public class SelectSessionActivity extends BaseActivity {
 

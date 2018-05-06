@@ -1,4 +1,4 @@
-package hackhealth2018.myapplication;
+package hackhealth2018.hackhealth2018;
 
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;

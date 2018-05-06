@@ -1,4 +1,4 @@
-package hackhealth2018.myapplication.util;
+package hackhealth2018.hackhealth2018.util;
 
 public class Strings {
     //Keys

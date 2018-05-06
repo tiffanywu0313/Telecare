@@ -1,4 +1,4 @@
-package hackhealth2018.myapplication.model;
+package hackhealth2018.hackhealth2018.model;
 
 public class SessionResponse {
     String apiKey;

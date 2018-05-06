@@ -1,4 +1,4 @@
-package hackhealth2018.myapplication.views.chatSession;
+package hackhealth2018.hackhealth2018.views.chatSession;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -7,9 +7,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import hackhealth2018.myapplication.R;
-import hackhealth2018.myapplication.util.Strings;
-import hackhealth2018.myapplication.views.BaseFragment;
+import hackhealth2018.hackhealth2018.R;
+import hackhealth2018.hackhealth2018.util.Strings;
+import hackhealth2018.hackhealth2018.views.BaseFragment;
 
 public class ChatFragment extends BaseFragment {
     private static final String TAG = ChatFragment.class.getSimpleName();

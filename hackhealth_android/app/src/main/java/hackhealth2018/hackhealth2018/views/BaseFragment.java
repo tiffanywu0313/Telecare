@@ -1,4 +1,4 @@
-package hackhealth2018.myapplication.views;
+package hackhealth2018.hackhealth2018.views;
 
 import android.content.Context;
 import android.os.Bundle;

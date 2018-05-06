@@ -1,4 +1,4 @@
-package hackhealth2018.myapplication;
+package hackhealth2018.hackhealth2018;
 
 import org.junit.Test;
 
