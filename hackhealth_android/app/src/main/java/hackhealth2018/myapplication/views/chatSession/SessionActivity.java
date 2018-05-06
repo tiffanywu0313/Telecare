@@ -82,6 +82,12 @@ public class SessionActivity extends BaseActivity implements Session.SessionList
     }
 
     @Override
+    protected void onStop() {
+        super.onStop();
+        mPublisher.destroy();
+    }
+
+    @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         if (requestCode == PERMISSION_REQ) {
             if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED &&
@@ -91,7 +97,8 @@ public class SessionActivity extends BaseActivity implements Session.SessionList
     }
 
     private void startConnection() {
-        onChatStart();
+        if (!isDoctor)
+            onChatStart();
 //        ((ChatFragment) chatFrag).onChatStart();
 //        ((DataFragment) dataFrag).onChatStart() //TODO
     }
@@ -196,5 +203,4 @@ public class SessionActivity extends BaseActivity implements Session.SessionList
     public void onError(Session session, OpentokError opentokError) {
         Log.e(TAG, "Session error: " + opentokError.getMessage());
     }
-
 }
