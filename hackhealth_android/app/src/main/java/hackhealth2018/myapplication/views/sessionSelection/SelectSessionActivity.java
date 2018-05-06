@@ -32,6 +32,10 @@ public class SelectSessionActivity extends BaseActivity {
 
     @OnClick(R.id.bttn_start_patient)
     public void startPatientSession() {
-
+        Intent intent = new Intent(this, SessionActivity.class);
+        Bundle bundle = new Bundle();
+        bundle.putBoolean(Strings.SHAREDPREF_IS_DOCTOR, false);
+        intent.putExtras(bundle);
+        startActivity(intent);
     }
 }
