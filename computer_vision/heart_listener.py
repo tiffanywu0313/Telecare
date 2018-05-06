@@ -11,10 +11,22 @@ from subprocess import Popen, PIPE
 import cv2
 import struct
 from video_listen import VideoCaptureYUV
+from firebase import firebase
+import threading
+import time
 
 class getPulse(object):
 
     def __init__(self):
+
+        self.firebase = firebase.FirebaseApplication('https://hackhealth-c0852.firebaseio.com', None)
+        result = self.firebase.get('/Rooms/room2', None)
+        sessionID = result['sessionID']
+        tokenID = result['token']
+
+        print(sessionID)
+        print(tokenID)
+
         self.processor = findFaceGetPulse(bpm_limits = [50, 160],
                                           data_spike_limit = 2500.,
                                           face_detector_smoothness = 10.)
@@ -27,8 +39,8 @@ class getPulse(object):
         # self.vidcap = cv2.VideoCapture(0)
         output = Popen(['./sdlexample',
                         '-a', '46113352',
-                        '-s', '2_MX40NjExMzM1Mn5-MTUyNTU5MTQ1MzU1NX50Z0UxVHA4QzJRc3hldEtXdHN5NjJaN1V-fg',
-                        '-t', 'T1==cGFydG5lcl9pZD00NjExMzM1MiZzaWc9ZGI1NjI5YjQxNmJjODc1NDdiM2FiZmZlM2Y3ZGMwYTM0M2Y4MzI4YTpzZXNzaW9uX2lkPTJfTVg0ME5qRXhNek0xTW41LU1UVXlOVFU1TVRRMU16VTFOWDUwWjBVeFZIQTRRekpSYzNobGRFdFhkSE41TmpKYU4xVi1mZyZjcmVhdGVfdGltZT0xNTI1NTk4OTQ0Jm5vbmNlPTAuMzQxMTcxNzM4Mzk0NDgzMiZyb2xlPXB1Ymxpc2hlciZleHBpcmVfdGltZT0xNTI1Njg1MzQ0JmNvbm5lY3Rpb25fZGF0YT1wYXRpZW50JmluaXRpYWxfbGF5b3V0X2NsYXNzX2xpc3Q9',
+                        '-s', sessionID,
+                        '-t', tokenID,
                         '-d', 'patient'
                         ], stdout = PIPE)
         size = (480, 640)
@@ -112,7 +124,7 @@ class getPulse(object):
         # set current image frame to the processor's input
         self.processor.frame_in = frame
         # process the image frame to perform all needed analysis
-        self.processor.run(self.vidcap)
+        bpm = self.processor.run(self.vidcap)
         # collect the output frame for display
         output_frame = self.processor.frame_out
 
@@ -125,13 +137,25 @@ class getPulse(object):
 
         # handle any key presses
         self.key_handler()
+
+        return bpm
+
 if __name__ == "__main__":
 
     App = getPulse()
+    start_time = time.time
     while True:
-        App.main_loop()
+        bpm = App.main_loop()
 
-# cap = cv2.VideoCapture(0)
+        elapsed_time = time.time - start_time
+
+        if elapsed_time >= 3:
+            start_time = time.time
+            firebase_application = firebase.FirebaseApplication('https://hackhealth-c0852.firebaseio.com', None)
+            heartrateupdate = firebase_application.put('/Rooms/room2', 'heartRate', bpm)
+
+
+            # cap = cv2.VideoCapture(0)
 #
 # while(True):
 #     # Capture frame-by-frame

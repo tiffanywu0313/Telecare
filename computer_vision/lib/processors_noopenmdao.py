@@ -204,15 +204,28 @@ class findFaceGetPulse(object):
             pfreq = freqs[idx]
             self.freqs = pfreq
             self.fft = pruned
-            idx2 = np.argmax(pruned)
 
-            t = (np.sin(phase[idx2]) + 1.) / 2.
-            t = 0.9 * t + 0.1
-            alpha = t
-            beta = 1 - t
+            try:
 
-            self.bpm = self.freqs[idx2]
-            self.idx += 1
+                idx2 = np.argmax(pruned)
+
+                t = (np.sin(phase[idx2]) + 1.) / 2.
+                t = 0.9 * t + 0.1
+                alpha = t
+                beta = 1 - t
+
+                self.bpm = self.freqs[idx2]
+                self.idx += 1
+            except:
+
+                alpha = 0.2177896447337035
+                t = (np.sin(0.2177896447337035) + 1.) / 2.
+                t = 0.9 * t + 0.1
+                alpha = t
+                beta = 1 - t
+
+                self.bpm = 60
+                self.idx += 1
 
             x, y, w, h = self.get_subface_coord(0.5, 0.18, 0.25, 0.15)
             r = alpha * self.frame_in[y:y + h, x:x + w, 0]
@@ -234,6 +247,9 @@ class findFaceGetPulse(object):
             else:
                 text = "(estimate: %0.1f bpm)" % (self.bpm)
             tsize = 1
-            print(self.bpm)
-            cv2.putText(self.frame_out, text,
+            if L%500 > 0:
+                print(L)
+            cv2.putText(self.frame_out,     text,
                        (int(x - w / 2), int(y)), cv2.FONT_HERSHEY_PLAIN, tsize, col)
+
+            return self.bpm
