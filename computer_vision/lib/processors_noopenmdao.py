@@ -247,8 +247,7 @@ class findFaceGetPulse(object):
             else:
                 text = "(estimate: %0.1f bpm)" % (self.bpm)
             tsize = 1
-            if L%500 > 0:
-                print(L)
+
             cv2.putText(self.frame_out,     text,
                        (int(x - w / 2), int(y)), cv2.FONT_HERSHEY_PLAIN, tsize, col)
 

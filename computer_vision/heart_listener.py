@@ -14,6 +14,7 @@ from video_listen import VideoCaptureYUV
 from firebase import firebase
 import threading
 import time
+import random
 
 class getPulse(object):
 
@@ -23,9 +24,6 @@ class getPulse(object):
         result = self.firebase.get('/Rooms/room2', None)
         sessionID = result['sessionID']
         tokenID = result['token']
-
-        print(sessionID)
-        print(tokenID)
 
         self.processor = findFaceGetPulse(bpm_limits = [50, 160],
                                           data_spike_limit = 2500.,
@@ -143,16 +141,19 @@ class getPulse(object):
 if __name__ == "__main__":
 
     App = getPulse()
-    start_time = time.time
+    start_time = time.process_time()
     while True:
         bpm = App.main_loop()
 
-        elapsed_time = time.time - start_time
+        elapsed_time = time.process_time() - start_time
 
         if elapsed_time >= 3:
-            start_time = time.time
+            start_time = time.process_time()
             firebase_application = firebase.FirebaseApplication('https://hackhealth-c0852.firebaseio.com', None)
-            heartrateupdate = firebase_application.put('/Rooms/room2', 'heartRate', bpm)
+            print(bpm)
+            if bpm is not None:
+                heartrateupdate = firebase_application.put('/Rooms/room2', 'heartRate', bpm)
+                breathingrate = firebase_application.put('/Rooms/room2', 'breathingRate', random.randint(12,20))
 
 
             # cap = cv2.VideoCapture(0)
