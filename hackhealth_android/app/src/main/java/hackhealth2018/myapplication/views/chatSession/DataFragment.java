@@ -51,14 +51,18 @@ public class DataFragment extends BaseFragment {
     public void onViewCreated(View view, Bundle savedInstanceState) {
         mViewPager = (ViewPager) view.findViewById(R.id.viewpager);
         mViewPager.setAdapter(new FragmentPagerAdapter());
-        TabLayout tab = new TabLayout(mContext);
-        tab.addTab(tab.newTab().setText("heart rate"));
-        tab.addTab(tab.newTab().setText("breathing rate"));
         TabLayout tablayout = getActivity().findViewById(R.id.tab_chatdata);
         tablayout.setupWithViewPager(mViewPager);
     }
 
     class FragmentPagerAdapter extends PagerAdapter {
+        private String[] tabTitles = new String[]{"Heart Rate", "Breathing Rate"};
+
+        @Override
+        public CharSequence getPageTitle(int positon){
+            return tabTitles[positon];
+        }
+
         @Override
         public int getCount() {
             return 2;
