@@ -4,7 +4,7 @@ android {
     compileSdkVersion 27
     buildToolsVersion "27.0.3"
     defaultConfig {
-        applicationId "hackhealth2018.myapplication"
+        applicationId "hackhealth2018.hackhealth2018"
         minSdkVersion 24
         targetSdkVersion 27
         versionCode 1
@@ -51,4 +51,8 @@ dependencies {
     implementation 'com.android.support:appcompat-v7:27.1.1'
     implementation 'com.android.support.constraint:constraint-layout:1.1.0'
     testImplementation 'junit:junit:4.12'
+
+    // Firebase
+    implementation 'com.google.firebase:firebase-database:15.0.1'
 }
+apply plugin: 'com.google.gms.google-services'

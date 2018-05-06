@@ -10,6 +10,7 @@ import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.widget.FrameLayout;
 
+import com.google.firebase.database.FirebaseDatabase;
 import com.google.gson.Gson;
 import com.opentok.android.OpentokError;
 import com.opentok.android.Publisher;
@@ -42,6 +43,7 @@ public class SessionActivity extends BaseActivity implements Session.SessionList
     private static String TOKEN = "";
     private static final int RC_SETTINGS_SCREEN_PERM = 123;
     private static final int RC_VIDEO_APP_PERM = 124;
+    private static FirebaseDatabase db = FirebaseDatabase.getInstance();
 
     @BindView(R.id.frame_tokbox) FrameLayout tokBoxFrame;
     @BindView(R.id.frame_tokbox_self) FrameLayout tokBoxSelfFrame;
