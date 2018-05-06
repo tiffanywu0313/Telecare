@@ -150,9 +150,11 @@ public class SessionActivity extends BaseActivity implements Session.SessionList
         Log.i(TAG, "SESSION_ID: " + SESSION_ID);
         Log.i(TAG, "TOKEN: " + TOKEN);
 
-        DatabaseReference myRef = db.getReference().child("Rooms").child("room2");
-        myRef.child("sessionID").setValue(SESSION_ID);
-        myRef.child("token").setValue(TOKEN);
+        if (!isDoctor) { //listen to patient
+            DatabaseReference myRef = db.getReference().child("Rooms").child("room1");
+            myRef.child("sessionID").setValue(SESSION_ID);
+            myRef.child("token").setValue(TOKEN);
+        }
 
         mSession = new Session.Builder(this, API_KEY, SESSION_ID).build();
         mSession.setSessionListener(this);
