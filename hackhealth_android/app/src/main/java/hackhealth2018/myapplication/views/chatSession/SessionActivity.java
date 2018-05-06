@@ -44,6 +44,7 @@ public class SessionActivity extends BaseActivity implements Session.SessionList
     private static final int RC_VIDEO_APP_PERM = 124;
 
     @BindView(R.id.frame_tokbox) FrameLayout tokBoxFrame;
+    @BindView(R.id.frame_tokbox_self) FrameLayout tokBoxSelfFrame;
 //    @BindView(R.id.frame_data) FrameLayout dataFrame;
 //    Fragment chatFrag;
     Fragment dataFrag;
@@ -62,7 +63,7 @@ public class SessionActivity extends BaseActivity implements Session.SessionList
 //        chatFrag = ChatFragment.newInstance(isDoctor);
         dataFrag = DataFragment.newInstance(isDoctor);
 //        replaceFragment(R.id.frame_tokbox, chatFrag);
-        replaceFragment(R.id.frame_data, dataFrag);
+//        replaceFragment(R.id.frame_data, dataFrag);
     }
 
     @Override
@@ -167,7 +168,7 @@ public class SessionActivity extends BaseActivity implements Session.SessionList
             }
         });
 
-        tokBoxFrame.addView(mPublisher.getView());
+        tokBoxSelfFrame.addView(mPublisher.getView());
         mSession.publish(mPublisher);
     }
 
@@ -179,11 +180,11 @@ public class SessionActivity extends BaseActivity implements Session.SessionList
     @Override
     public void onStreamReceived(Session session, Stream stream) {
         Log.i(TAG, "Stream Received");
-//        if (mSubscriber == null) {
-//            mSubscriber = new Subscriber.Builder(this, stream).build();
-//            mSession.subscribe(mSubscriber);
-//            dataFrame.addView(mSubscriber.getView());
-//        }
+        if (mSubscriber == null) {
+            mSubscriber = new Subscriber.Builder(this, stream).build();
+            mSession.subscribe(mSubscriber);
+            tokBoxFrame.addView(mSubscriber.getView());
+        }
     }
 
     @Override
