@@ -37,10 +37,17 @@ dependencies {
     // Material Design
     implementation 'com.afollestad.material-dialogs:core:0.9.6.0'
 
+    // Network
+    implementation 'com.squareup.okhttp3:okhttp:3.10.0'
+
+    //Gson - JSON
+    implementation 'com.google.code.gson:gson:2.8.4'
+
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     androidTestImplementation('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
+
     implementation 'com.android.support:appcompat-v7:27.1.1'
     implementation 'com.android.support.constraint:constraint-layout:1.1.0'
     testImplementation 'junit:junit:4.12'
