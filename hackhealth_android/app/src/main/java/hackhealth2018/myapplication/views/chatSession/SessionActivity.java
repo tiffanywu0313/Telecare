@@ -1,14 +1,23 @@
 package hackhealth2018.myapplication.views.chatSession;
 
+import android.Manifest;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
 
+import hackhealth2018.myapplication.R;
 import hackhealth2018.myapplication.util.Strings;
 import hackhealth2018.myapplication.views.BaseActivity;
-import hackhealth2018.myapplication.R;
 
 public class SessionActivity extends BaseActivity {
     public boolean isDoctor;
+    private static final int PERMISSION_REQ = 124;
+
+    Fragment chatFrag;
+    Fragment dataFrag;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -18,9 +27,38 @@ public class SessionActivity extends BaseActivity {
         if (getIntent().getExtras() != null)
             isDoctor = getIntent().getExtras().getBoolean(Strings.SHAREDPREF_IS_DOCTOR, false);
 
-        Fragment chatFragment = ChatFragment.newInstance(isDoctor);
-        Fragment dataFragment = DataFragment.newInstance(isDoctor);
-        replaceFragment(R.id.frame_tokbox, chatFragment);
-        replaceFragment(R.id.frame_data, dataFragment);
+        chatFrag = ChatFragment.newInstance(isDoctor);
+        dataFrag = DataFragment.newInstance(isDoctor);
+        replaceFragment(R.id.frame_tokbox, chatFrag);
+        replaceFragment(R.id.frame_data, dataFrag);
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        if ((ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) &&
+                ContextCompat.checkSelfPermission(this, Manifest.permission.RECORD_AUDIO) != PackageManager.PERMISSION_GRANTED) {
+            // permission not granted
+            ActivityCompat.requestPermissions(this,
+                    new String[]{Manifest.permission.CAMERA, Manifest.permission.RECORD_AUDIO},
+                    PERMISSION_REQ);
+        } else {
+            // permission granted
+            startConnection();
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        if (requestCode == PERMISSION_REQ) {
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED &&
+                    grantResults[1] == PackageManager.PERMISSION_GRANTED)
+                startConnection();
+        }
+    }
+
+    private void startConnection() {
+        ((ChatFragment) chatFrag).onChatStart();
+//        ((DataFragment) dataFrag).onChatStart() //TODO
     }
 }
