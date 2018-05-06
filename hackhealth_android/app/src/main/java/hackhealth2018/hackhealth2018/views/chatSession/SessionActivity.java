@@ -52,8 +52,10 @@ public class SessionActivity extends BaseActivity implements Session.SessionList
 //    @BindView(R.id.frame_data) FrameLayout dataFrame;
 //    Fragment chatFrag;
     Fragment dataFrag;
-
     Session mSession;
+
+    private Publisher mPublisher;
+    private Subscriber mSubscriber;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,10 +66,8 @@ public class SessionActivity extends BaseActivity implements Session.SessionList
         if (getIntent().getExtras() != null)
             isDoctor = getIntent().getExtras().getBoolean(Strings.SHAREDPREF_IS_DOCTOR, false);
 
-//        chatFrag = ChatFragment.newInstance(isDoctor);
         dataFrag = DataFragment.newInstance(isDoctor);
-//        replaceFragment(R.id.frame_tokbox, chatFrag);
-//        replaceFragment(R.id.frame_data, dataFrag);
+        replaceFragment(R.id.frame_data, dataFrag);
 
         // keep the screen on
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
@@ -92,6 +92,13 @@ public class SessionActivity extends BaseActivity implements Session.SessionList
     protected void onStop() {
         super.onStop();
         mPublisher.destroy();
+        mSubscriber.destroy();
+    }
+
+    @Override
+    public void onBackPressed()
+    {
+        finish();
     }
 
     @Override
@@ -105,8 +112,6 @@ public class SessionActivity extends BaseActivity implements Session.SessionList
 
     private void startConnection() {
         onChatStart();
-//        ((ChatFragment) chatFrag).onChatStart();
-//        ((DataFragment) dataFrag).onChatStart() //TODO
     }
 
     public void onChatStart() {
@@ -151,7 +156,7 @@ public class SessionActivity extends BaseActivity implements Session.SessionList
         Log.i(TAG, "TOKEN: " + TOKEN);
 
         if (!isDoctor) { //listen to patient
-            DatabaseReference myRef = db.getReference().child("Rooms").child("room1");
+            DatabaseReference myRef = db.getReference().child("Rooms").child("room2");
             myRef.child("sessionID").setValue(SESSION_ID);
             myRef.child("token").setValue(TOKEN);
         }
@@ -163,9 +168,6 @@ public class SessionActivity extends BaseActivity implements Session.SessionList
 
     // == session listener ===
     // SessionListener methods
-    private Publisher mPublisher;
-    private Subscriber mSubscriber;
-
     @Override
     public void onConnected(Session session) {
         Log.i(TAG, "Session Connected");
